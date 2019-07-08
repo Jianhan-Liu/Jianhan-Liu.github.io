@@ -118,7 +118,7 @@
     <div class="post-toc-content">
       <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Python判空"><span class="toc-text">1.Python判空</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Python判等"><span class="toc-text">2.Python判等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-is和-的区别"><span class="toc-text">2.1 is和==的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-变量不是对象"><span class="toc-text">2.2 变量不是对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-可变数据结构和不可变数据结构赋值时的区别"><span class="toc-text">2.3 可变数据结构和不可变数据结构赋值时的区别</span></a></li></ol>
     </div>
-  </div><div class="post-content"><h3 id="1-Python判空"><a href="#1-Python判空" class="headerlink" title="1.Python判空"></a>1.Python判空</h3><p>调用对象的<code>__bool__</code>函数，若不存在该方法，则调用<code>__len__</code>方法，返回0为空，否则为1.</p>
+  </div><div class="post-content"><h3 id="1-Python判空"><a href="#1-Python判空" class="headerlink" title="1.Python判空"></a>1.Python判空</h3><p>调用对象的<code>__bool__</code>函数，若不存在该方法，则调用<code>__len__</code>方法，返回0为空，否则为1.如果某类对象没有定义这两种方法，则该类实例化的任何实例判断时均为真。</p>
 <h3 id="2-Python判等"><a href="#2-Python判等" class="headerlink" title="2.Python判等"></a>2.Python判等</h3><h3 id="2-1-is和-的区别"><a href="#2-1-is和-的区别" class="headerlink" title="2.1 is和==的区别"></a>2.1 <code>is</code>和<code>==</code>的区别</h3><p><code>is</code>根据对象的内存地址判断是否为同一个对象，即调用<code>id()</code>后的地址，如果一致则返回真。</p>
 <p><code>==</code>调用对象的<code>__eq__</code>方法来判断两个对象是否相等，具体返回结果取决于该方法的具体实现。</p>
 <a id="more"></a>
