@@ -156,7 +156,7 @@
 </center>
 其中，$\alpha$是一个为正数的学习速率，大小将决定函数收敛的结果：
 
-<p>$$\theta _{1}=\theta _{1}-\alpha \dfrac {dJ\left( \theta _{1}\right) }{d\theta _{1}}$$</p>
+<p>$$\theta _{1}=\theta _{1}-\alpha \dfrac {\partial J\left( \theta _{1}\right) }{\partial \theta _{1}}$$</p>
 <p>导数部分为代价函数在$\theta_1$处的斜率，当$\theta_1$在最优解（斜率为0处）右边时，斜率为正，因此每次迭代的结果$\theta_1$都会减小；反之，当$\theta_1$在最优解左边时，斜率为负，每次迭代$\theta_1$都会增大。这两种情况的迭代均会使得$\theta_1$不断靠近最优解。而学习速率$\alpha$的选择，则会决定迭代的次数以及迭代的结果：</p>
 <center>
 
@@ -172,7 +172,7 @@
 </center>
 因为每次迭代后，与$\alpha$相乘的偏导数部分都会变小（对于偏导数为负情况，与$\theta_1$相加的部分每次同样都更小），即
 
-<p>$$\alpha \dfrac {d}{d\theta }J_{1}\left( \theta _{1}\right) $$<br>部分每次都变小，因此随着迭代的进行，梯度下降每次将自动减小下降速率，而$\alpha$则不需要跟随迭代变化。</p>
+<p>$$\alpha \dfrac {\partial }{\partial \theta }J_{1}\left( \theta _{1}\right) $$<br>部分每次都变小，因此随着迭代的进行，梯度下降每次将自动减小下降速率，而$\alpha$则不需要跟随迭代变化。</p>
 <p>4.如果$\theta_1$一开始就在最优解处，则每次迭代后$\theta_1$都不会变化，因为偏导数结果为0。</p>
 <center>
 
