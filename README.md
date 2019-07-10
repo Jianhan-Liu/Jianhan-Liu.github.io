@@ -1,1 +1,1 @@
-![hexo_blog](https://www.freecoder.site)
+[hexo_blog](https://www.freecoder.site)
