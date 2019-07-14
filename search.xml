@@ -13,6 +13,8 @@
       
       <categories>
           
+          <category> 机器学习 </category>
+          
           <category> NLP </category>
           
       </categories>
@@ -31,6 +33,8 @@
       
       
       <categories>
+          
+          <category> 数据结构与算法 </category>
           
           <category> Python </category>
           
@@ -51,7 +55,7 @@
       
       <categories>
           
-          <category> 算法 </category>
+          <category> 数据结构与算法 </category>
           
       </categories>
       
@@ -70,7 +74,7 @@
       
       <categories>
           
-          <category> 算法 </category>
+          <category> 数据结构与算法 </category>
           
       </categories>
       
@@ -127,7 +131,9 @@
       
       <categories>
           
-          <category> 数据结构 </category>
+          <category> 数据结构与算法 </category>
+          
+          <category> Python </category>
           
       </categories>
       
