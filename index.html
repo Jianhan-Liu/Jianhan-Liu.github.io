@@ -101,6 +101,26 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2019/07/15/线性模型的Python实现/">线性回归模型的Python实现</a>
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2019-07-15
+        </span><span class="post-category">
+            <a href="/categories/Python/">Python</a>
+            <a href="/categories/机器学习/">机器学习</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><h3 id="1-随机性选择-theta-0-和-theta-1"><a href="#1-随机性选择-theta-0-和-theta-1" class="headerlink" title="1.随机性选择$\theta_0$和$\theta_1$"></a>1.随机性选择$\theta_0$和$\theta_1$</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_boston</span><br><span class="line"></span><br><span class="line">data = load_boston()</span><br><span class="line">X = data[<span class="string">'data'</span>][:, <span class="number">5</span>]</span><br><span class="line">y = data[<span class="string">'target'</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">price</span><span class="params">(theta_0, theta_1, x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> theta_0 * x + theta_1</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss</span><span class="params">(y:list, y_hat:list)</span>:</span> </span><br><span class="line">    <span class="keyword">return</span> sum((y_i - y_hat_i)**<span class="number">2</span> <span class="keyword">for</span> y_i, y_hat_i <span class="keyword">in</span> zip(list(y), list(y_hat))) / len(list(y))</span><br><span class="line">    </span><br><span class="line">min_loss = float(<span class="string">'inf'</span>)</span><br><span class="line">theta_0, theta_1 = <span class="literal">None</span>, <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">attempt_times = <span class="number">3000</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(attempt_times):</span><br><span class="line">    theta_0 = random.random() * <span class="number">200</span> - <span class="number">100</span> </span><br><span class="line">    theta_1 = random.random() * <span class="number">200</span> - <span class="number">100</span></span><br><span class="line">    price_by_random_k_and_b = [price(theta_0, theta_1, x) <span class="keyword">for</span> x <span class="keyword">in</span> X]</span><br><span class="line"></span><br><span class="line">    current_loss = loss(y, price_by_random_k_and_b)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> current_loss &lt; min_loss:</span><br><span class="line">        min_loss = current_loss</span><br><span class="line">        new_theta_0, new_theta_1 = theta_0, theta_1</span><br><span class="line">        print(<span class="string">'When time is : &#123;&#125;, get best_k: &#123;&#125; best_b: &#123;&#125;, and the loss is: &#123;&#125;'</span>.format(i, new_theta_0, new_theta_1, min_loss))</span><br></pre></td></tr></table></figure>
+          <div class="read-more">
+            <a href="/2019/07/15/线性模型的Python实现/" class="read-more-link">阅读更多</a>
+          </div>
+        </div></article>
+      <article class="post">
+    <header class="post-header">
       <h1 class="post-title"><a class="post-link" href="/2019/07/14/北京地铁智能搜索系统/">北京地铁智能搜索系统的Python实现</a>
         </h1>
 
@@ -132,8 +152,8 @@
         <span class="post-time">
           2019-07-09
         </span><span class="post-category">
-            <a href="/categories/数据结构与算法/">数据结构与算法</a>
             <a href="/categories/Python/">Python</a>
+            <a href="/categories/数据结构与算法/">数据结构与算法</a>
             </span>
         </div>
     </header>
@@ -248,8 +268,8 @@
         <span class="post-time">
           2019-07-07
         </span><span class="post-category">
-            <a href="/categories/数据结构与算法/">数据结构与算法</a>
             <a href="/categories/Python/">Python</a>
+            <a href="/categories/数据结构与算法/">数据结构与算法</a>
             </span>
         </div>
     </header>
