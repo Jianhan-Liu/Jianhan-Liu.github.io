@@ -101,6 +101,30 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2019/07/16/2-Gram语言模型的Python实现/">2-Gram语言模型及基于模式匹配对话A.I的Python实现</a>
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2019-07-16
+        </span><span class="post-category">
+            <a href="/categories/Python/">Python</a>
+            <a href="/categories/NLP/">NLP</a>
+            <a href="/categories/智能系统/">智能系统</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><h3 id="1-基于概率统计的语言模型"><a href="#1-基于概率统计的语言模型" class="headerlink" title="1.基于概率统计的语言模型"></a>1.基于概率统计的语言模型</h3><blockquote>
+<p>语义资料整理得到目标语言格式文本。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">content = pd.read_csv(<span class="string">'movie_comments.csv'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">content.head()</span><br><span class="line">articles = content[<span class="string">'comment'</span>].tolist()</span><br><span class="line"><span class="keyword">for</span> i, article <span class="keyword">in</span> enumerate(articles):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        new_article = re.findall(<span class="string">'\w+'</span>, article)</span><br><span class="line">        <span class="keyword">if</span> new_article:</span><br><span class="line">            articles[i] = <span class="string">''</span>.join(new_article)</span><br><span class="line">    <span class="keyword">except</span> TypeError:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'movie_comment_pure.txt'</span>, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> article <span class="keyword">in</span> articles:</span><br><span class="line">        f.write(str(article) + <span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+          <div class="read-more">
+            <a href="/2019/07/16/2-Gram语言模型的Python实现/" class="read-more-link">阅读更多</a>
+          </div>
+        </div></article>
+      <article class="post">
+    <header class="post-header">
       <h1 class="post-title"><a class="post-link" href="/2019/07/15/线性模型的Python实现/">线性回归模型的Python实现</a>
         </h1>
 
