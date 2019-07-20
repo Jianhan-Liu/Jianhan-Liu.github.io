@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<meta name="description" content="BFS & DFS"><meta name="keywords" content="算法,NLP,机器学习,深度学习"><link rel="alternate" href="/atom.xml" title="Freecoder"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0">
+<meta name="description" content="深度/广度优先的Python实现"><meta name="keywords" content="算法,NLP,机器学习,深度学习"><link rel="alternate" href="/atom.xml" title="Freecoder"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0">
 <link rel="canonical" href="http://www.freecoder.site/2019/07/08/DFS-BFS/">
 
 <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="/lib/nprogress/nprogress.min.css"><script type="text/x-mathjax-config">
@@ -40,7 +40,7 @@
   window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":true,"latex":true};
 </script>
 
-    <title>BFS & DFS - Freecoder</title>
+    <title>深度/广度优先的Python实现 - Freecoder</title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -101,7 +101,7 @@
         <div class="content-wrapper">
           <div id="content" class="content"><article class="post">
     <header class="post-header">
-      <h1 class="post-title">BFS & DFS
+      <h1 class="post-title">深度/广度优先的Python实现
         </h1>
 
       <div class="post-meta">
@@ -118,7 +118,7 @@
     <div class="post-toc-content">
       <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-BFS"><span class="toc-text">1.BFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-DFS"><span class="toc-text">2.DFS</span></a></li></ol>
     </div>
-  </div><div class="post-content"><h3 id="1-BFS"><a href="#1-BFS" class="headerlink" title="1.BFS"></a>1.BFS</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(graph, start)</span>:</span></span><br><span class="line">    visited = [start]</span><br><span class="line">    seen = set()  </span><br><span class="line">    <span class="keyword">while</span> visited:</span><br><span class="line">        frontier = visited.pop() </span><br><span class="line">        <span class="keyword">if</span> frontier <span class="keyword">in</span> seen: <span class="keyword">continue</span>      </span><br><span class="line">        <span class="keyword">for</span> successor <span class="keyword">in</span> graph[frontier]:</span><br><span class="line">            <span class="keyword">if</span> successor <span class="keyword">in</span> seen: <span class="keyword">continue</span></span><br><span class="line">            print(successor)           </span><br><span class="line">            visited = [successor] + visited</span><br><span class="line">        seen.add(frontier)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> seen</span><br></pre></td></tr></table></figure>
+  </div><div class="post-content"><h3 id="1-BFS"><a href="#1-BFS" class="headerlink" title="1.BFS"></a>1.BFS</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(graph, start)</span>:</span></span><br><span class="line">    visited_queue = [start]</span><br><span class="line">    seen = set()  </span><br><span class="line">    <span class="keyword">while</span> visited_queue:</span><br><span class="line">        frontier = visited_queue.pop() </span><br><span class="line">        <span class="keyword">if</span> frontier <span class="keyword">in</span> seen: <span class="keyword">continue</span>      </span><br><span class="line">        <span class="keyword">for</span> successor <span class="keyword">in</span> graph[frontier]:</span><br><span class="line">            <span class="keyword">if</span> successor <span class="keyword">in</span> seen: <span class="keyword">continue</span></span><br><span class="line">            print(successor)           </span><br><span class="line">            visited_queue = [successor] + visited_queue</span><br><span class="line">        seen.add(frontier)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> seen</span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>
 
