@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang>
+  <head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta name="theme-color" content="#f8f5ec">
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="Python可变数据结构的陷阱"><meta name="keywords" content="算法,NLP,机器学习,深度学习"><link rel="alternate" href="/atom.xml" title="Freecoder"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0">
+<link rel="canonical" href="http://www.freecoder.site/09/Python可变数据结构的陷阱/">
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="/lib/nprogress/nprogress.min.css"><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0">
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":true,"latex":true};
+</script>
+
+    <title>Python可变数据结构的陷阱 - Freecoder</title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Freecoder</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">归档
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Freecoder</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            归档
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            分类
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            关于
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Python可变数据结构的陷阱
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2019-07-09
+        </span><span class="post-category">
+            <a href="/categories/数据结构与算法/">数据结构与算法</a>
+            <a href="/categories/Python/">Python</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-标识，别名和副本"><span class="toc-text">1.标识，别名和副本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-深浅复制"><span class="toc-text">2.深浅复制</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><h3 id="1-标识，别名和副本"><a href="#1-标识，别名和副本" class="headerlink" title="1.标识，别名和副本"></a>1.标识，别名和副本</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,[<span class="number">5</span>,<span class="number">6</span>],(<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_2 = list_1</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_2</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1 <span class="keyword">is</span> list_2</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_3 = list_1[:]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_3</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1 <span class="keyword">is</span> list_3</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><code>list_1</code>和<code>list_2</code>均是对象标识，且两者互为对方别名。两者在内存中的引用为同一列表对象。</li>
+<li><code>list_3</code>为<code>list_1</code>副本（同时也是<code>list_2</code>副本），副本引用一份同样容器结构的不同对象。副本创建默认是浅复制，即同<code>copy</code>模块中的<code>copy</code>方法。</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="2-深浅复制"><a href="#2-深浅复制" class="headerlink" title="2.深浅复制"></a>2.深浅复制</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> copy</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_4 = copy.copy(list_1)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_4</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_4 <span class="keyword">is</span> list_1</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>浅复制本质和通过<code>list()</code>方法或者<code>list_1[:]</code>创建的副本对象一致。</li>
+<li>对不可变序列如<code>str,bytes,tuple</code>使用<code>[:]</code>方式创建的副本，其返回同一个对象的引用。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_5 = copy.deepcopy(list_1)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_4</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_5</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1.append(<span class="string">'a'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,), <span class="string">'a'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_4</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_5</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>改变原容器结构的操作方法<code>append()</code>只作用于<code>list_1</code>。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1[<span class="number">-3</span>].append(<span class="string">'a'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>, <span class="string">'a'</span>], (<span class="number">7</span>,), <span class="string">'a'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_4</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>, <span class="string">'a'</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_5</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1[<span class="number">-2</span>] += (<span class="number">8</span>,<span class="number">9</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_1</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>, <span class="string">'a'</span>], (<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>), <span class="string">'a'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_4</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>, <span class="string">'a'</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_5</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_6 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list_6</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], (<span class="number">7</span>,)]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>不改变原容器结构的方法对<code>list_4</code>有效，因为副本中的可变对象与原对象引用同一列表<code>[5,6]</code>，对深复制对象无效。实际上，除非直接操作<code>list_5</code>变量，否则任何对于其他列表的操作均不会对<code>list_5</code>有影响。</li>
+<li>对列表中<code>tuple</code>的操作，会创建一个新的<code>tuple</code>。</li>
+<li><code>list_6</code>：将同样的值赋给一个新变量，与之前的<code>list</code>没有引用关系。</li>
+</ul>
+</blockquote>
+
+      </div>
+      
+      <footer class="post-footer">
+        
+        <nav class="post-nav"><a class="prev" href="/14/北京地铁智能搜索系统/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">北京地铁智能搜索系统的Python实现</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    <a class="next" href="/08/十大排序算法的Python实现/">
+        <span class="next-text nav-default">十大排序算法的Python实现</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:liujianhan@gmail.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/jianhan-liu" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/mrserious/" class="iconfont icon-douban" title="douban"></a>
+        </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2019<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Django</span>
+  </span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/lib/pjax/jquery.pjax.min.js"></script>
+  <script type="text/javascript" src="/lib/nprogress/nprogress.min.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

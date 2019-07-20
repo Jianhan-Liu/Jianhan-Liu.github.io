@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang>
+  <head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta name="theme-color" content="#f8f5ec">
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="深度/广度优先的Python实现"><meta name="keywords" content="算法,NLP,机器学习,深度学习"><link rel="alternate" href="/atom.xml" title="Freecoder"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0">
+<link rel="canonical" href="http://www.freecoder.site/08/DFS-BFS/">
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="/lib/nprogress/nprogress.min.css"><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0">
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":true,"latex":true};
+</script>
+
+    <title>深度/广度优先的Python实现 - Freecoder</title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Freecoder</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">归档
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Freecoder</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            归档
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            分类
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            关于
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">深度/广度优先的Python实现
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2019-07-08
+        </span><span class="post-category">
+            <a href="/categories/数据结构与算法/">数据结构与算法</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-BFS"><span class="toc-text">1.BFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-DFS"><span class="toc-text">2.DFS</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><h3 id="1-BFS"><a href="#1-BFS" class="headerlink" title="1.BFS"></a>1.BFS</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(graph, start)</span>:</span></span><br><span class="line">    visited_queue = [start]</span><br><span class="line">    seen = set()  </span><br><span class="line">    <span class="keyword">while</span> visited_queue:</span><br><span class="line">        frontier = visited_queue.pop() </span><br><span class="line">        <span class="keyword">if</span> frontier <span class="keyword">in</span> seen: <span class="keyword">continue</span>      </span><br><span class="line">        <span class="keyword">for</span> successor <span class="keyword">in</span> graph[frontier]:</span><br><span class="line">            <span class="keyword">if</span> successor <span class="keyword">in</span> seen: <span class="keyword">continue</span></span><br><span class="line">            print(successor)           </span><br><span class="line">            visited_queue = [successor] + visited_queue</span><br><span class="line">        seen.add(frontier)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> seen</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+
+<center>
+
+<p><img src="./gifs/BFS.gif" alt="bfs"></p>
+</center>
+
+<h3 id="2-DFS"><a href="#2-DFS" class="headerlink" title="2.DFS"></a>2.DFS</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dfs_seen = set()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(graph, start)</span>:</span></span><br><span class="line">    dfs_seen.add(start)</span><br><span class="line">    print(start)</span><br><span class="line">    <span class="keyword">if</span> len(graph[start]) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">for</span> successor <span class="keyword">in</span> graph[start]:</span><br><span class="line">        <span class="keyword">if</span> successor <span class="keyword">in</span> dfs_seen:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        dfs(graph, successor)</span><br><span class="line">    <span class="keyword">return</span> dfs_seen</span><br></pre></td></tr></table></figure>
+
+<center>
+
+<p><img src="./gifs/DFS.gif" alt="dfs"></p>
+</center>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">number_graph = &#123;</span><br><span class="line">    <span class="number">1</span>: [<span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="number">2</span>: [<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">    <span class="number">3</span>: [<span class="number">1</span>, <span class="number">6</span>],</span><br><span class="line">    <span class="number">4</span>: [<span class="number">2</span>, <span class="number">7</span>, <span class="number">8</span>],</span><br><span class="line">    <span class="number">5</span>: [<span class="number">2</span>, <span class="number">9</span>],</span><br><span class="line">    <span class="number">6</span>: [<span class="number">3</span>, <span class="number">11</span>, <span class="number">10</span>],</span><br><span class="line">    <span class="number">7</span>: [<span class="number">4</span>],</span><br><span class="line">    <span class="number">8</span>: [<span class="number">4</span>, <span class="number">12</span>],</span><br><span class="line">    <span class="number">9</span>: [<span class="number">5</span>],</span><br><span class="line">    <span class="number">10</span>: [<span class="number">6</span>],</span><br><span class="line">    <span class="number">11</span>: [<span class="number">6</span>, <span class="number">13</span>],</span><br><span class="line">    <span class="number">12</span>: [<span class="number">8</span>],</span><br><span class="line">    <span class="number">13</span>: [<span class="number">11</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(bfs(number_graph, <span class="number">1</span>))</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">13</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>&#125;</span><br><span class="line"></span><br><span class="line">print(dfs(number_graph, <span class="number">1</span>))</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">13</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>&#125;</span><br></pre></td></tr></table></figure>
+      </div>
+      
+      <footer class="post-footer">
+        
+        <nav class="post-nav"><a class="prev" href="/08/十大排序算法的Python实现/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">十大排序算法的Python实现</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    <a class="next" href="/08/Python-s-Trick/">
+        <span class="next-text nav-default">Python's Trick 01</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:liujianhan@gmail.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/jianhan-liu" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/mrserious/" class="iconfont icon-douban" title="douban"></a>
+        </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2019<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Django</span>
+  </span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/lib/pjax/jquery.pjax.min.js"></script>
+  <script type="text/javascript" src="/lib/nprogress/nprogress.min.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang>
+  <head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta name="theme-color" content="#f8f5ec">
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="动态规划表的三个常见应用及Python实现"><meta name="keywords" content="算法,NLP,机器学习,深度学习"><link rel="alternate" href="/atom.xml" title="Freecoder"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0">
+<link rel="canonical" href="http://www.freecoder.site/20/动态规划表的几个应用/">
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="/lib/nprogress/nprogress.min.css"><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0">
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":true,"latex":true};
+</script>
+
+    <title>动态规划表的三个常见应用及Python实现 - Freecoder</title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Freecoder</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">归档
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Freecoder</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            归档
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            分类
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            关于
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">动态规划表的三个常见应用及Python实现
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2019-07-20
+        </span><span class="post-category">
+            <a href="/categories/数据结构与算法/">数据结构与算法</a>
+            <a href="/categories/Python/">Python</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-最长公共子串"><span class="toc-text">1.最长公共子串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-最长公共子序列"><span class="toc-text">2.最长公共子序列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-编辑距离"><span class="toc-text">3.编辑距离</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><h3 id="1-最长公共子串"><a href="#1-最长公共子串" class="headerlink" title="1.最长公共子串"></a>1.最长公共子串</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">longest_substring_matrix</span><span class="params">(str1, str2)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Return all the longest common substring of two strings.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    result = []</span><br><span class="line">    row, column = len(str1), len(str2)</span><br><span class="line">    matrix = np.zeros((row, column), dtype=int)</span><br><span class="line">    <span class="keyword">for</span> i, char1 <span class="keyword">in</span> enumerate(str1):</span><br><span class="line">        <span class="keyword">for</span> j, char2 <span class="keyword">in</span> enumerate(str2):</span><br><span class="line">            <span class="keyword">if</span> char1 == char2:</span><br><span class="line">                matrix[i, j] = matrix[i<span class="number">-1</span>, j<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">    max_ = matrix.max()</span><br><span class="line">    args = np.argwhere(matrix == max_)</span><br><span class="line">    <span class="keyword">for</span> arg <span class="keyword">in</span> args:</span><br><span class="line">        index_ = arg[<span class="number">0</span>]</span><br><span class="line">        result.append(str1[index_ - max_ + <span class="number">1</span> : index_ + <span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> max_, result</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>longest_substring_matrix(<span class="string">'hellowel'</span>, <span class="string">'hellfadellolflowedlfalowefsello'</span>)</span><br><span class="line">(<span class="number">4</span>, [<span class="string">'hell'</span>, <span class="string">'ello'</span>, <span class="string">'ello'</span>, <span class="string">'lowe'</span>, <span class="string">'lowe'</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>longest_substring_matrix(<span class="string">'fish'</span>, <span class="string">'fhish'</span>)</span><br><span class="line">(<span class="number">3</span>, [<span class="string">'ish'</span>])</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="2-最长公共子序列"><a href="#2-最长公共子序列" class="headerlink" title="2.最长公共子序列"></a>2.最长公共子序列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">longest_subsequence_matrix</span><span class="params">(str1, str2)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Return the longest common subsequence of two strings, return one of them if there are mutiple solution with same </span></span><br><span class="line"><span class="string">    length.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    str1, str2 = <span class="string">' '</span>+ str1, <span class="string">' '</span>+ str2</span><br><span class="line">    index_ = []</span><br><span class="line">    len_1, len_2 = len(str1), len(str2)</span><br><span class="line">    <span class="keyword">if</span> str1 <span class="keyword">and</span> str2:</span><br><span class="line">        matrix = np.zeros((len_1, len_2), dtype=np.int)</span><br><span class="line">        <span class="keyword">for</span> i, char1 <span class="keyword">in</span> enumerate(str1):</span><br><span class="line">            <span class="keyword">if</span> i == <span class="number">0</span>: <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">for</span> j, char2 <span class="keyword">in</span> enumerate(str2):</span><br><span class="line">                <span class="keyword">if</span> j == <span class="number">0</span>: <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">if</span> char1 == char2:</span><br><span class="line">                    matrix[i, j] = matrix[i - <span class="number">1</span>, j - <span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    matrix[i, j] = max(matrix[i, j - <span class="number">1</span>], matrix[i - <span class="number">1</span>, j])</span><br><span class="line">                    </span><br><span class="line">        target = np.max(matrix)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, target + <span class="number">1</span>):</span><br><span class="line">            <span class="comment"># 找出第一个加1的数</span></span><br><span class="line">            <span class="comment"># 行小于列，以行索引取最小，反之，以列索引取最小</span></span><br><span class="line">            flag = <span class="number">0</span> <span class="keyword">if</span> len_1 &lt; len_2 <span class="keyword">else</span> <span class="number">1</span></span><br><span class="line">            temp = min(np.argwhere(matrix == i), key = <span class="keyword">lambda</span> x: x[flag])</span><br><span class="line">            index_.append(temp)  </span><br><span class="line">            </span><br><span class="line">        result = [str1[i[<span class="number">0</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> index_]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result, target</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> len_1 <span class="number">-1</span>  <span class="keyword">if</span> str1 <span class="keyword">else</span> len_2 - <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>longest_subsequence_matrix(<span class="string">'h1e2ll3o2y34o234u'</span>, <span class="string">'helloyou'</span>)</span><br><span class="line">([<span class="string">'h'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>, <span class="string">'y'</span>, <span class="string">'o'</span>, <span class="string">'u'</span>], <span class="number">8</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>longest_subsequence_matrix(<span class="string">'ABCDEFG'</span>, <span class="string">'BCDAFG'</span>)</span><br><span class="line">([<span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'F'</span>, <span class="string">'G'</span>], <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-编辑距离"><a href="#3-编辑距离" class="headerlink" title="3.编辑距离"></a>3.编辑距离</h3><p><a href="https://www.youtube.com/watch?v=We3YDTzNXEk" target="_blank" rel="noopener">参考视频</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EditDistance</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Return steps of editing and every step's detail.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.solution = &#123;&#125;</span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">edit_distance_with_matrix</span><span class="params">(str1, str2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        From str1 to str2.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        len_1, len_2 = len(str1) + <span class="number">1</span>, len(str2) + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> str1 <span class="keyword">and</span> str2:</span><br><span class="line">            matrix = np.zeros((len_2, len_1), dtype=np.int)</span><br><span class="line">            matrix[<span class="number">0</span>, :] = np.arange(len_1)</span><br><span class="line">            matrix[:, <span class="number">0</span>] = np.arange(len_2)</span><br><span class="line">            <span class="keyword">for</span> i, char1 <span class="keyword">in</span> enumerate(str2):</span><br><span class="line">                <span class="keyword">for</span> j, char2 <span class="keyword">in</span> enumerate(str1):</span><br><span class="line">                    <span class="keyword">if</span> char1 == char2:</span><br><span class="line">                        matrix[i + <span class="number">1</span>, j + <span class="number">1</span>] = matrix[i, j]</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        matrix[i + <span class="number">1</span>, j + <span class="number">1</span>] = min(matrix[i, j + <span class="number">1</span>], matrix[i, j], matrix[i + <span class="number">1</span>, j]) + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> matrix[len_2 <span class="number">-1</span> , len_1 - <span class="number">1</span>], matrix</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> len_1 <span class="number">-1</span>  <span class="keyword">if</span> str1 <span class="keyword">else</span> len_2 - <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_matrix_solution</span><span class="params">(self, matrix)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Up refers to insert; left refers to delete; digonal refers to substating.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        r, c = matrix.shape</span><br><span class="line">        <span class="keyword">if</span> r &lt; <span class="number">2</span> <span class="keyword">and</span> c &gt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">for</span> _ <span class="keyword">in</span> matrix[<span class="number">0</span>, :c<span class="number">-1</span>]:</span><br><span class="line">                self.solution[_+<span class="number">1</span>] = <span class="string">f"delete str1.(<span class="subst">&#123;_&#125;</span>)"</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">elif</span> c &lt; <span class="number">2</span> <span class="keyword">and</span> r &gt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">for</span> _ <span class="keyword">in</span> matrix[:r<span class="number">-1</span>, <span class="number">0</span>]:</span><br><span class="line">                self.solution[_ + <span class="number">1</span>] = <span class="string">f"str1.(<span class="subst">&#123;<span class="number">0</span>&#125;</span>) + str2.(<span class="subst">&#123;_&#125;</span>)"</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        row, column = np.array(matrix.shape) - <span class="number">1</span></span><br><span class="line">        target = matrix[row, column]</span><br><span class="line">        up = row - <span class="number">1</span>, column</span><br><span class="line">        left = row, column - <span class="number">1</span></span><br><span class="line">        diag = row - <span class="number">1</span>, column - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        temp = min(matrix[diag], matrix[up], matrix[left])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 以下if控制语句的顺序不可变，即从up -&gt; left -&gt; diag顺序判断</span></span><br><span class="line">        <span class="keyword">if</span> target == temp + <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> target == matrix[up] + <span class="number">1</span>:</span><br><span class="line">                self.solution[target] = <span class="string">f"str1.(<span class="subst">&#123;column - <span class="number">1</span>&#125;</span>) + str2.(<span class="subst">&#123;row - <span class="number">1</span>&#125;</span>)"</span></span><br><span class="line">                <span class="keyword">return</span> self.get_matrix_solution(matrix[:row, :])</span><br><span class="line">            <span class="keyword">elif</span> target == matrix[left] + <span class="number">1</span>:</span><br><span class="line">                self.solution[target] = <span class="string">f"delete str1.(<span class="subst">&#123;column - <span class="number">1</span>&#125;</span>)"</span></span><br><span class="line">                <span class="keyword">return</span> self.get_matrix_solution(matrix[:, :column])</span><br><span class="line">            <span class="keyword">elif</span> target == matrix[diag] + <span class="number">1</span>:</span><br><span class="line">                self.solution[target] = <span class="string">f"str1.(<span class="subst">&#123;column - <span class="number">1</span>&#125;</span>) -&gt; str2.(<span class="subst">&#123;row - <span class="number">1</span>&#125;</span>)"</span></span><br><span class="line">                <span class="keyword">return</span> self.get_matrix_solution(matrix[:row,:column])</span><br><span class="line">        <span class="keyword">return</span> self.get_matrix_solution(matrix[:row,:column])</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_solution</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> sorted(self.solution.items())</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>test = EditDistance()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>step, matrix_ = test.edit_distance_with_matrix(<span class="string">'welecome'</span>, <span class="string">'stinfwelcom'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test.get_matrix_solution(matrix_)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test.get_solution()</span><br><span class="line">[(<span class="number">1</span>, <span class="string">'str1.(0) + str2.(0)'</span>),</span><br><span class="line"> (<span class="number">2</span>, <span class="string">'str1.(0) + str2.(1)'</span>),</span><br><span class="line"> (<span class="number">3</span>, <span class="string">'str1.(0) + str2.(2)'</span>),</span><br><span class="line"> (<span class="number">4</span>, <span class="string">'str1.(0) + str2.(3)'</span>),</span><br><span class="line"> (<span class="number">5</span>, <span class="string">'str1.(0) + str2.(4)'</span>),</span><br><span class="line"> (<span class="number">6</span>, <span class="string">'delete str1.(3)'</span>),</span><br><span class="line"> (<span class="number">7</span>, <span class="string">'delete str1.(7)'</span>)]</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test_ = EditDistance()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>step, matrix_ = test_.edit_distance_with_matrix(<span class="string">'stinfwelcom'</span>, <span class="string">'welecome'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test_.get_matrix_solution(matrix_)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(matrix_)</span><br><span class="line">[[ <span class="number">0</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span> <span class="number">11</span>]</span><br><span class="line"> [ <span class="number">1</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span>]</span><br><span class="line"> [ <span class="number">2</span>  <span class="number">2</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span>]</span><br><span class="line"> [ <span class="number">3</span>  <span class="number">3</span>  <span class="number">3</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>]</span><br><span class="line"> [ <span class="number">4</span>  <span class="number">4</span>  <span class="number">4</span>  <span class="number">4</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>]</span><br><span class="line"> [ <span class="number">5</span>  <span class="number">5</span>  <span class="number">5</span>  <span class="number">5</span>  <span class="number">5</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">7</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>]</span><br><span class="line"> [ <span class="number">6</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">7</span>  <span class="number">6</span>  <span class="number">7</span>]</span><br><span class="line"> [ <span class="number">7</span>  <span class="number">7</span>  <span class="number">7</span>  <span class="number">7</span>  <span class="number">7</span>  <span class="number">7</span>  <span class="number">7</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">8</span>  <span class="number">7</span>  <span class="number">6</span>]</span><br><span class="line"> [ <span class="number">8</span>  <span class="number">8</span>  <span class="number">8</span>  <span class="number">8</span>  <span class="number">8</span>  <span class="number">8</span>  <span class="number">8</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span>  <span class="number">8</span>  <span class="number">7</span>]]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test_.get_solution()</span><br><span class="line">[(<span class="number">1</span>, <span class="string">'delete str1.(0)'</span>),</span><br><span class="line"> (<span class="number">2</span>, <span class="string">'delete str1.(1)'</span>),</span><br><span class="line"> (<span class="number">3</span>, <span class="string">'delete str1.(2)'</span>),</span><br><span class="line"> (<span class="number">4</span>, <span class="string">'delete str1.(3)'</span>),</span><br><span class="line"> (<span class="number">5</span>, <span class="string">'delete str1.(4)'</span>),</span><br><span class="line"> (<span class="number">6</span>, <span class="string">'str1.(7) + str2.(3)'</span>),</span><br><span class="line"> (<span class="number">7</span>, <span class="string">'str1.(10) + str2.(7)'</span>)]</span><br></pre></td></tr></table></figure>
+      </div>
+      
+      <footer class="post-footer">
+        
+        <nav class="post-nav"><a class="prev" href="/20/Dijsktra算法的Python实现/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Dijsktra算法的Python实现</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    <a class="next" href="/16/2-Gram语言模型的Python实现/">
+        <span class="next-text nav-default">2-Gram语言模型及基于模式匹配对话A.I的Python实现</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:liujianhan@gmail.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/jianhan-liu" class="iconfont icon-github" title="github"></a>
+        <a href="https://www.douban.com/people/mrserious/" class="iconfont icon-douban" title="douban"></a>
+        </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2019<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Django</span>
+  </span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/lib/pjax/jquery.pjax.min.js"></script>
+  <script type="text/javascript" src="/lib/nprogress/nprogress.min.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
