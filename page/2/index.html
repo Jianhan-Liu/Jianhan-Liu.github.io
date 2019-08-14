@@ -101,6 +101,34 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2019/07/08/十大排序算法的Python实现/">十大排序算法的Python实现</a>
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2019-07-08
+        </span><span class="post-category">
+            <a href="/categories/数据结构与算法/">数据结构与算法</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><p>1.是否稳定：两个数<code>a,b</code>相等，排序之前<code>a</code>在<code>b</code>前面，排序后位置不变为稳定，反之则不稳定。</p>
+<p>2.时间复杂度：对待排序数据的总操作次数，反映为当排序数据量变化时，操作次数呈现的规律。</p>
+<p>3.空间复杂度：算法在计算机执行时所需要存储空间的度量，是排序数据规模的函数。</p>
+<p>4.根据是否通过<strong>比较</strong>排序来分为：</p>
+<pre><code>比较类排序：通过比较来决定元素之间的次序，由于其时间复杂度无法突破O(nlogn)，因此也称为非线性时间比较类排序。
+
+非比较类排序：不通过比较来决定元素间的相对次序，可以突破上述比较排序的时间下限，以线性时间运行，因此也称为线性时间非比较类排序。</code></pre><h3 id="1-选择排序"><a href="#1-选择排序" class="headerlink" title="1.选择排序"></a>1.选择排序</h3><blockquote>
+<p>在未排序的序列中找到最小（大）元素，存放到起始位置，再从剩余未排序的元素中找最小（大）元素，放到已排序序列的末尾，以此类推。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SelectionSort</span>:</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span><span class="params">(nums_list)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums_list) - <span class="number">1</span>):</span><br><span class="line">            low_index = i</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>, len(nums_list)):</span><br><span class="line">                <span class="keyword">if</span> nums_list[j] &lt; nums_list[low_index]:</span><br><span class="line">                    low_index = j</span><br><span class="line">            <span class="keyword">if</span> low_index != i:</span><br><span class="line">                nums_list[low_index], nums_list[i] = nums_list[i], nums_list[low_index]</span><br><span class="line">        <span class="keyword">return</span> nums_list</span><br></pre></td></tr></table></figure>
+          <div class="read-more">
+            <a href="/2019/07/08/十大排序算法的Python实现/" class="read-more-link">阅读更多</a>
+          </div>
+        </div></article>
+      <article class="post">
+    <header class="post-header">
       <h1 class="post-title"><a class="post-link" href="/2019/07/08/DFS-BFS/">深度/广度优先的Python实现</a>
         </h1>
 
